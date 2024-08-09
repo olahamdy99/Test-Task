@@ -22,3 +22,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 Route::apiResource('shipments', ShipmentController::class);
+Route::apiResource('journals', JournalController::class);

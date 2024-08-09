@@ -11,15 +11,13 @@ class Journal extends Model
 
     protected $fillable = [
         'shipment_id',
-        'user_id',
         'type',
         'amount',
     ];
 
-    
+
     public function shipment()
     {
         return $this->belongsTo(Shipment::class, 'shipment_id');
     }
-
 }
