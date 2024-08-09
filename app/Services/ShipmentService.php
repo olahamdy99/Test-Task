@@ -11,7 +11,7 @@ class ShipmentService
 {
     public function getAllShipments()
     {
-        return Shipment::with('user')->get()->map(fn($shipment) => new ShipmentDTO($shipment->toArray()));
+        return Shipment::all()->map(fn($shipment) => new ShipmentDTO($shipment->toArray()));
     }
 
     public function createShipment(ShipmentDTO $shipmentDTO)
@@ -23,13 +23,13 @@ class ShipmentService
         return new ShipmentDTO($shipment->load('user')->toArray());
     }
 
-    public function getShipmentById(int $id)
+    public function getShipmentById( $id)
     {
         $shipment = Shipment::with('user')->findOrFail($id);
         return new ShipmentDTO($shipment->toArray());
     }
 
-    public function updateShipment(int $id, array $data)
+    public function updateShipment( $id, $data)
     {
         $shipment = Shipment::findOrFail($id);
         $existingData = $shipment->toArray();
@@ -62,7 +62,7 @@ class ShipmentService
     }
     
 
-    public function deleteShipment(int $id)
+    public function deleteShipment($id)
     {
         $shipment = Shipment::findOrFail($id);
         Journal::where('shipment_id', $id)->delete();

@@ -38,18 +38,15 @@ class ShipmentController extends Controller
             'updated_by' => 'nullable|string',
         ]);
 
-    
         if ($request->hasFile('image')) {
             $filePath = $request->file('image')->store('images', 'public');
             $data['image'] = $filePath;
         }
 
- 
 
         $shipmentDTO = new ShipmentDTO($data);
         $shipment = $this->shipmentService->createShipment($shipmentDTO);
         return response()->json($shipment);
-
 
     }
 
