@@ -20,7 +20,7 @@ class ShipmentService
         $shipmentData = (array)$shipmentDTO;
         unset($shipmentData['id']);
         $shipment = Shipment::create($shipmentData);
-        return new ShipmentDTO($shipment->load('user')->toArray());
+        return new ShipmentDTO($shipment->toArray());
     }
 
     public function getShipmentById( $id)
@@ -49,7 +49,7 @@ class ShipmentService
             'weight' => 'required|numeric',
             'description' => 'required|string',
             'status' => 'required|in:Pending,Progress,Done',
-            'updated_by' => 'nullable|exists:users,id',
+            'updated_by' => 'nullable|string',
         ])->validate();
     
         Log::info('Validated merged data', $validatedData); // Log validated merged data

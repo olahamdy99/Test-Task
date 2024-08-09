@@ -62,12 +62,12 @@ class ShipmentController extends Controller
         // Log::info('Request data', $request->all()); // Log the request data
     
         $data = $request->validate([
-            'code' => 'sometimes|string|unique:shipments,code,' . $id,
-            'shipper' => 'sometimes|string',
-            'image' => 'sometimes|file|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'weight' => 'sometimes|numeric',
-            'description' => 'sometimes|string',
-            'status' => 'sometimes|in:Pending,Progress,Done',
+            'code' => 'nullable|string|unique:shipments,code,' . $id,
+            'shipper' => 'nullable|string',
+            'image' => 'nullable|file|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'weight' => 'nullable|numeric',
+            'description' => 'nullable|string',
+            'status' => 'nullable|in:Pending,Progress,Done',
             'updated_by' => 'nullable|string',
         ]);
     
@@ -87,7 +87,6 @@ class ShipmentController extends Controller
     {
         $this->shipmentService->deleteShipment($id);
         return response()->json(['message' => 'Shipment deleted successfully']);
-
 
     }
 
