@@ -16,7 +16,10 @@ class JournalController extends Controller
 
     public function index()
     {
-        return response()->json($this->journalService->getAll());
+        $journals = $this->journalService->getAll(); 
+        // return response()->json($this->journalService->getAll());
+        // return view('journals.index', compact('journals'));
+        return view('journals.index', ['journals' => $journals]);
 
     }
 
@@ -24,9 +27,15 @@ class JournalController extends Controller
     {
 
         $journal = $this->journalService->getById($id);
-        return response()->json($journal);
+        // return response()->json($journal);
+        return view('journals.show', compact('journal'));
     }
     
+    public function create()
+    {
+        return view('journals.create');
+    }
+
 
     public function store(Request $request)
     {
@@ -36,7 +45,15 @@ class JournalController extends Controller
             'amount' => 'required|numeric',
         ]);
 
-        return response()->json($this->journalService->create($data), 201);
+        // return response()->json($this->journalService->create($data), 201);
+        return redirect()->route('journals.index')->with('success', 'Journal entry created successfully.');
+
+    }
+
+    public function edit(int $id)
+    {
+        $journal = $this->journalService->getById($id);
+        return view('journals.edit', compact('journal'));
     }
 
     public function update(Request $request, int $id)
@@ -47,13 +64,15 @@ class JournalController extends Controller
             'amount' => 'nullable|numeric',
         ]);
 
-        return response()->json($this->journalService->update($id, $data));
+        // return response()->json($this->journalService->update($id, $data));
+        return redirect()->route('journals.index')->with('success', 'Journal entry updated successfully.');
     }
 
     public function destroy(int $id)
     {
         $this->journalService->delete($id);
-        return response()->json(['message' => 'Journal deleted successfully']);
+        // return response()->json(['message' => 'Journal deleted successfully']);
+        return redirect()->route('journals.index')->with('success', 'Journal entry deleted successfully.');
     }
 
 

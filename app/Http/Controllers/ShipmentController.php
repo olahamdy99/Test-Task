@@ -20,11 +20,22 @@ class ShipmentController extends Controller
     public function index()
     {
         $shipments = $this->shipmentService->getAllShipments();
-        return response()->json($shipments);
+        // return response()->json($shipments);
+        return view('shipments.index', ['shipments' => $shipments]);
 
-      
-        return view('shipments.index', compact('shipments'));
     }
+
+    public function create()
+    {
+        return view('shipments.create');
+    }
+    
+    public function edit($id)
+    {
+        $shipment = $this->shipmentService->getShipmentById($id);
+        return view('shipments.edit', compact('shipment'));
+    }
+
 
     public function store(Request $request)
     {
@@ -46,14 +57,19 @@ class ShipmentController extends Controller
 
         $shipmentDTO = new ShipmentDTO($data);
         $shipment = $this->shipmentService->createShipment($shipmentDTO);
-        return response()->json($shipment);
+        // return response()->json($shipment);
+
+
+        return view('shipments.create', ['shipment' => $shipment]);
 
     }
 
     public function show(int $id)
     {
         $shipment = $this->shipmentService->getShipmentById($id);
-        return response()->json($shipment);
+        // return response()->json($shipment);
+
+        return view('shipments.show', ['shipment' => $shipment]);
 
     }
 
@@ -80,13 +96,19 @@ class ShipmentController extends Controller
         // Log::info('Validated data', $data); // Log the validated data
     
         $shipment = $this->shipmentService->updateShipment($id, $data);
-        return response()->json($shipment);
+        // return response()->json($shipment);
+
+        return view('shipments.edit', ['shipment' => $shipment]);
+
+
     }
 
     public function destroy(int $id)
     {
         $this->shipmentService->deleteShipment($id);
-        return response()->json(['message' => 'Shipment deleted successfully']);
+        // return response()->json(['message' => 'Shipment deleted successfully']);
+
+        return redirect()->route('shipments.index')->with('success', 'Shipment deleted successfully');
 
     }
 
