@@ -49,14 +49,7 @@ class JournalController extends Controller
             'amount' => 'required|numeric',
         ]);
     
-        // Debugging
-        // Log::info('Store method data:', $data);
-    
         $journal = $this->journalService->create($data);
-    
-        // Debugging
-        // Log::info('Created journal:', $journal->toArray());
-    
         return redirect()->route('journals.index')->with('success', 'Journal entry created successfully.');
     }
     

@@ -14,7 +14,7 @@ class ShipmentController extends Controller
     public function __construct(ShipmentService $shipmentService)
     {
 
-        // $this->middleware('auth');
+        $this->middleware('auth');
         $this->shipmentService = $shipmentService;
     }
 
@@ -97,7 +97,6 @@ class ShipmentController extends Controller
         $shipment = $this->shipmentService->updateShipment($id, $data);
         // return response()->json($shipment);
 
-        // return view('shipments.edit', ['shipment' => $shipment]);
         return redirect()->route('shipments.index')->with('success', 'Shipment updated successfully.');
 
         
