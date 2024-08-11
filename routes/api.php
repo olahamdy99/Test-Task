@@ -17,8 +17,8 @@ use App\Http\Controllers\JournalController;
 */
 
 Route::middleware(['auth'])->group(function () {
-     Route::resource('shipments', ShipmentController::class);
-     Route::resource('journals', JournalController::class);
+
 });
 
-
+Route::resource('shipments', ShipmentController::class);
+Route::resource('journals', JournalController::class);

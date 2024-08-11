@@ -6,18 +6,18 @@
     <h1 class="mb-4">Create Journal Entry</h1>
 
     @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul>
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
 
-    <form action="{{ route('journals.store') }}" method="POST">
-        @csrf
-
+    <form action="{{ route('journals.store') }}" method="POST" enctype="multipart/form-data">
+    @csrf
+    
         <div class="form-group">
             <label for="shipment_id">Shipment ID</label>
             <input type="number" class="form-control" id="shipment_id" name="shipment_id" value="{{ old('shipment_id') }}" required>

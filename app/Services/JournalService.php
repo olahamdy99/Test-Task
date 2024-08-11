@@ -21,11 +21,15 @@ class JournalService
 
     public function create($data)
     {
-   
-        $journal = Journal::create($data);
-        return new JournalDTO($journal);
+        try {
+            $journal = Journal::create($data);
+            return new JournalDTO($journal);
+        } catch (\Exception $e) {
+            // \Log::error('Error creating journal:', ['error' => $e->getMessage()]);
+            throw $e;
+        }
     }
-
+    
     public function update($id, $data)
     {
         $journal = Journal::findOrFail($id);

@@ -44,8 +44,13 @@ Route::middleware('auth')->group(function () {
 
 
     // Journal routes
+    Route::get('/journals/create', [JournalController::class, 'create'])->name('journals.create');
+    Route::post('/journals', [JournalController::class, 'store'])->name('journals.store');
+
     Route::get('/journals', [JournalController::class, 'index'])->name('journals.index');
     Route::get('/journals/{id}', [JournalController::class, 'show'])->name('journals.show');
+
+    
     Route::get('/journals/{id}/edit', [JournalController::class, 'edit'])->name('journals.edit');
 });
 

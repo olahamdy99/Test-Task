@@ -18,9 +18,7 @@ class JournalController extends Controller
     {
         $journals = $this->journalService->getAll(); 
         // return response()->json($this->journalService->getAll());
-        // return view('journals.index', compact('journals'));
-        return view('journals.index', ['journals' => $journals]);
-
+        return view('journals.index', compact('journals'));
     }
 
     public function show(int $id)
@@ -36,6 +34,12 @@ class JournalController extends Controller
         return view('journals.create');
     }
 
+    public function edit(int $id)
+    {
+        $journal = $this->journalService->getById($id);
+        return view('journals.edit', compact('journal'));
+    }
+
 
     public function store(Request $request)
     {
@@ -44,17 +48,19 @@ class JournalController extends Controller
             'type' => 'required|string|in:' . implode(',', JournalTypeService::getTypes()),
             'amount' => 'required|numeric',
         ]);
-
-        // return response()->json($this->journalService->create($data), 201);
+    
+        // Debugging
+        // Log::info('Store method data:', $data);
+    
+        $journal = $this->journalService->create($data);
+    
+        // Debugging
+        // Log::info('Created journal:', $journal->toArray());
+    
         return redirect()->route('journals.index')->with('success', 'Journal entry created successfully.');
-
     }
+    
 
-    public function edit(int $id)
-    {
-        $journal = $this->journalService->getById($id);
-        return view('journals.edit', compact('journal'));
-    }
 
     public function update(Request $request, int $id)
     {
@@ -63,11 +69,16 @@ class JournalController extends Controller
             'type' => 'nullable|string|in:' . implode(',', JournalTypeService::getTypes()),
             'amount' => 'nullable|numeric',
         ]);
-
-        // return response()->json($this->journalService->update($id, $data));
-        return redirect()->route('journals.index')->with('success', 'Journal entry updated successfully.');
+    
+        $data = array_filter($data, function ($value) {
+            return $value !== null;
+        });
+    
+        $journal = $this->journalService->update($id, $data);
+        // return response()->json($journal);
+        return redirect()->route('journals.index')->with('success', 'Journal updated successfully.');
     }
-
+    
     public function destroy(int $id)
     {
         $this->journalService->delete($id);

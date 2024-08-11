@@ -14,7 +14,7 @@ class ShipmentController extends Controller
     public function __construct(ShipmentService $shipmentService)
     {
 
-        $this->middleware('auth');
+        // $this->middleware('auth');
         $this->shipmentService = $shipmentService;
     }
 
