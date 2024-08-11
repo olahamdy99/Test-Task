@@ -3,29 +3,19 @@ namespace App\DTOs;
 
 class ShipmentDTO
 {
-    public $id;
-    public $code;
-    public $shipper;
-    public $image;
-    public $weight;
-    public $description;
-    public $price;
-    public $status;
-    public $updated_by;
-//     public $user;
+    private $id;
+    private $code;
+    private $shipper;
+    private $image;
+    private $weight;
+    private $description;
+    private $price;
+    private $status;
+    private $updated_by;
 
     public function __construct($data)
     {
-       $this->id = $data['id'] ?? null; 
-        $this->code = $data['code'];
-        $this->shipper = $data['shipper'];
-        $this->image = $data['image'];
-        $this->weight = $data['weight'];
-        $this->description = $data['description'];
-        $this->price = $this->calculatePrice($data['weight']);
-        $this->status = $data['status'];
-        $this->updated_by = $data['updated_by'] ?? null;
-     //    $this->user = $data['user'] ?? null;
+        $this->fromArray($data);
     }
 
     private function calculatePrice($weight)
@@ -38,6 +28,36 @@ class ShipmentDTO
             return 300;
         }
         return 0;
+    }
+
+    // Getter for all attributes
+    public function toArray()
+    {
+        return [
+            'id' => $this->id,
+            'code' => $this->code,
+            'shipper' => $this->shipper,
+            'image' => $this->image,
+            'weight' => $this->weight,
+            'description' => $this->description,
+            'price' => $this->price,
+            'status' => $this->status,
+            'updated_by' => $this->updated_by,
+        ];
+    }
+
+    // Setter for all attributes
+    public function fromArray(array $data)
+    {
+        $this->id = $data['id'] ?? null;
+        $this->code = $data['code'];
+        $this->shipper = $data['shipper'];
+        $this->image = $data['image'];
+        $this->weight = $data['weight'];
+        $this->description = $data['description'];
+        $this->price = $this->calculatePrice($data['weight']);
+        $this->status = $data['status'];
+        $this->updated_by = $data['updated_by'] ?? null;
     }
 }
 ?>

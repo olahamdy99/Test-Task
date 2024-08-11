@@ -16,12 +16,14 @@ class ShipmentService
 
     public function createShipment(ShipmentDTO $shipmentDTO)
     {
-
-        $shipmentData = (array)$shipmentDTO;
-        unset($shipmentData['id']);
+        // Convert DTO to array
+        $shipmentData = $shipmentDTO->toArray(); 
+        unset($shipmentData['id']);  
         $shipment = Shipment::create($shipmentData);
+        
         return new ShipmentDTO($shipment->toArray());
     }
+    
 
     public function getShipmentById( $id)
     {

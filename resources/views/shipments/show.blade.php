@@ -7,17 +7,20 @@
 
     <div class="card">
         <div class="card-body">
-            <p><strong>ID:</strong> {{ $shipment->id }}</p>
-            <p><strong>Code:</strong> {{ $shipment->code }}</p>
-            <p><strong>Shipper:</strong> {{ $shipment->shipper }}</p>
-            <p><strong>Weight:</strong> {{ $shipment->weight }}</p>
-            <p><strong>Description:</strong> {{ $shipment->description }}</p>
-            <p><strong>Status:</strong> {{ $shipment->status }}</p>
-            <p><strong>Updated By:</strong> {{ $shipment->updated_by }}</p>
+            @php
+                $data = $shipment->toArray();
+            @endphp
+            <p><strong>ID:</strong> {{ $data['id'] }}</p>
+            <p><strong>Code:</strong> {{ $data['code'] }}</p>
+            <p><strong>Shipper:</strong> {{ $data['shipper'] }}</p>
+            <p><strong>Weight:</strong> {{ $data['weight'] }}</p>
+            <p><strong>Description:</strong> {{ $data['description'] }}</p>
+            <p><strong>Status:</strong> {{ $data['status'] }}</p>
+            <p><strong>Updated By:</strong> {{ $data['updated_by'] }}</p>
 
-            @if($shipment->image)
+            @if($data['image'])
                 <p><strong>Image:</strong></p>
-                <img src="{{ asset('storage/' . $shipment->image) }}" alt="Shipment Image" class="img-thumbnail mt-2" style="width: 200px;">
+                <img src="{{ asset('storage/' . $data['image']) }}" alt="Shipment Image" class="img-thumbnail mt-2" style="width: 200px;">
             @endif
 
             <a href="{{ route('shipments.index') }}" class="btn btn-secondary mt-3">Back to Shipments</a>

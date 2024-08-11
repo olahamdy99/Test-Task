@@ -69,6 +69,8 @@ class ShipmentController extends Controller
         return view('shipments.show', ['shipment' => $shipment]);
     }
 
+
+    
     public function update(Request $request, $id)
     {
         // Log::info('Request data', $request->all()); // Log the request data
