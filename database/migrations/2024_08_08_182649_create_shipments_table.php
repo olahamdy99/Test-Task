@@ -21,7 +21,7 @@ return new class extends Migration
             $table->float('price')->default(0);
             $table->enum('status', ['Pending', 'Progress', 'Done']);
             $table->timestamps();
-            $table->string('updated_by');
+            $table->string('updated_by')->nullable();
         });
     }
 

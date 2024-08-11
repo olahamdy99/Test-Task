@@ -4,8 +4,16 @@
 
 @section('content')
     <h1 class="mb-4">Edit Shipment</h1>
-
-    <form action="{{ route('shipments.update', $shipment->id) }}" method="POST" enctype="multipart/form-data">
+    @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        <form action="{{ route('shipments.update', $shipment->id) }}" method="POST" enctype="multipart/form-data">
         @csrf
         @method('PUT')
 
@@ -44,11 +52,6 @@
             @if($shipment->image)
                 <img src="{{ asset('storage/' . $shipment->image) }}" alt="Shipment Image" class="img-fluid mt-2" style="max-width: 150px;">
             @endif
-        </div>
-
-        <div class="form-group">
-            <label for="updated_by">Updated By</label>
-            <input type="text" class="form-control" id="updated_by" name="updated_by" value="{{ old('updated_by', $shipment->updated_by) }}">
         </div>
 
         <button type="submit" class="btn btn-primary">Update Shipment</button>

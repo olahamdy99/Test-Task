@@ -5,7 +5,19 @@
 @section('content')
     <h1 class="mb-4">Shipments</h1>
 
-    <a href="{{ route('shipments.create') }}" class="btn btn-primary mb-3">Create New Shipment</a>
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
+
+    @if(session('error'))
+        <div class="alert alert-danger">
+            {{ session('error') }}
+        </div>
+    @endif
+
+    <a href="{{route ('shipments.create') }}" class="btn btn-primary mb-3">Create New Shipment</a>
 
     <table class="table table-bordered table-striped">
         <thead class="thead-dark">
@@ -32,7 +44,7 @@
                     <td>{{ $shipment->price }}</td>
                     <td>{{ $shipment->description }}</td>
                     <td>{{ $shipment->status }}</td>
-                    <td>{{ $shipment->updated_by }}</td>
+                    <td>{{ $shipment->updated_by ?: 'N/A' }}</td>
                     <td>
                         @if($shipment->image)
                             <img src="{{ asset('storage/' . $shipment->image) }}" alt="Shipment Image" class="img-fluid" style="max-width: 50px; height: auto;">

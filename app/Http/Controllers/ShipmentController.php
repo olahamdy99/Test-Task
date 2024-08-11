@@ -14,6 +14,7 @@ class ShipmentController extends Controller
     public function __construct(ShipmentService $shipmentService)
     {
 
+        $this->middleware('auth');
         $this->shipmentService = $shipmentService;
     }
 
@@ -22,20 +23,18 @@ class ShipmentController extends Controller
         $shipments = $this->shipmentService->getAllShipments();
         // return response()->json($shipments);
         return view('shipments.index', ['shipments' => $shipments]);
-
     }
 
     public function create()
     {
-        return view('shipments.create');
+        return view('shipments.create' );
     }
-    
+
     public function edit($id)
     {
         $shipment = $this->shipmentService->getShipmentById($id);
         return view('shipments.edit', compact('shipment'));
     }
-
 
     public function store(Request $request)
     {
@@ -53,27 +52,24 @@ class ShipmentController extends Controller
             $filePath = $request->file('image')->store('images', 'public');
             $data['image'] = $filePath;
         }
-
-
+        $data['created_by'] = auth()->user()->name;
+        
         $shipmentDTO = new ShipmentDTO($data);
         $shipment = $this->shipmentService->createShipment($shipmentDTO);
         // return response()->json($shipment);
 
-
-        return view('shipments.create', ['shipment' => $shipment]);
-
+        // return view('shipments.create', ['shipment' => $shipment]);
+        return redirect()->route('shipments.index')->with('success', 'Shipment created successfully');
     }
 
-    public function show(int $id)
+    public function show( $id)
     {
         $shipment = $this->shipmentService->getShipmentById($id);
         // return response()->json($shipment);
-
         return view('shipments.show', ['shipment' => $shipment]);
-
     }
 
-    public function update(Request $request, int $id)
+    public function update(Request $request, $id)
     {
         // Log::info('Request data', $request->all()); // Log the request data
     
@@ -90,20 +86,22 @@ class ShipmentController extends Controller
         if ($request->hasFile('image')) {
             $filePath = $request->file('image')->store('images', 'public');
             $data['image'] = $filePath;
+        } else {
+            unset($data['image']); 
         }
-    
- 
+        
+        $data['updated_by'] = auth()->user()->name;
         // Log::info('Validated data', $data); // Log the validated data
-    
         $shipment = $this->shipmentService->updateShipment($id, $data);
         // return response()->json($shipment);
 
-        return view('shipments.edit', ['shipment' => $shipment]);
+        // return view('shipments.edit', ['shipment' => $shipment]);
+        return redirect()->route('shipments.index')->with('success', 'Shipment updated successfully.');
 
-
+        
     }
 
-    public function destroy(int $id)
+    public function destroy( $id)
     {
         $this->shipmentService->deleteShipment($id);
         // return response()->json(['message' => 'Shipment deleted successfully']);

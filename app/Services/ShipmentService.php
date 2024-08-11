@@ -52,7 +52,7 @@ class ShipmentService
             'updated_by' => 'nullable|string',
         ])->validate();
     
-        Log::info('Validated merged data', $validatedData); // Log validated merged data
+        // Log::info('Validated merged data', $validatedData); // Log validated merged data
     
         // Update the shipment with validated data
         $shipment->update($validatedData);

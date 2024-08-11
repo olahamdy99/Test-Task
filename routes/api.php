@@ -16,10 +16,9 @@ use App\Http\Controllers\JournalController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['auth'])->group(function () {
+     Route::resource('shipments', ShipmentController::class);
+     Route::resource('journals', JournalController::class);
 });
 
 
-Route::apiResource('shipments', ShipmentController::class);
-Route::apiResource('journals', JournalController::class);

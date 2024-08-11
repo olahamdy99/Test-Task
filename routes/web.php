@@ -1,7 +1,7 @@
 <?php
 
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
 use App\Http\Controllers\ShipmentController;
 use App\Http\Controllers\JournalController;
 
@@ -20,13 +20,37 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::resource('shipments', ShipmentController::class);
-Route::resource('journals', JournalController::class);
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Shipment routes
+    Route::get('/shipments/create', [ShipmentController::class, 'create'])->name('shipments.create');
+    Route::post('/shipments', [ShipmentController::class, 'store'])->name('shipments.store');
+    
+    Route::get('/shipments', [ShipmentController::class, 'index'])->name('shipments.index');
+    Route::get('/shipments/{id}', [ShipmentController::class, 'show'])->name('shipments.show');
+    
+    Route::get('/shipments/{id}/edit', [ShipmentController::class, 'edit'])->name('shipments.edit');
+    Route::put('/shipments/{id}', [ShipmentController::class, 'update'])->name('shipments.update');
+    
+    Route::delete('/shipments/{id}', [ShipmentController::class, 'destroy'])->name('shipments.destroy');
+    
+
+
+    // Journal routes
+    Route::get('/journals', [JournalController::class, 'index'])->name('journals.index');
+    Route::get('/journals/{id}', [JournalController::class, 'show'])->name('journals.show');
+    Route::get('/journals/{id}/edit', [JournalController::class, 'edit'])->name('journals.edit');
+});
 
 
 
-// Route to display the edit form (GET request)
-Route::get('/shipments/{id}/edit', [ShipmentController::class, 'edit'])->name('shipments.edit');
 
-// Route to handle the form submission for updating a shipment (PUT request)
-Route::put('/shipments/{id}', [ShipmentController::class, 'update'])->name('shipments.update');
+
+require __DIR__.'/auth.php';
